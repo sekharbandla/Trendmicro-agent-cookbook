@@ -11,7 +11,7 @@ chef_version '>= 12.1' if respond_to?(:chef_version)
 # supports 'ubuntu', '= 14.04'
 # supports 'fedora', '> 25'
 
-Option II:
+#Option II:
 platforms =
   [
     {
