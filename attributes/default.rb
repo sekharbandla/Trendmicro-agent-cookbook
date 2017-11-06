@@ -1,0 +1,1 @@
+default['Trendmicro-agent-cookbook']['server-address']= '172.31.7.165'

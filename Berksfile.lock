@@ -1,0 +1,7 @@
+DEPENDENCIES
+  trendmicro
+    path: .
+    metadata: true
+
+GRAPH
+  trendmicro (0.1.0)

@@ -1,0 +1,57 @@
+---
+driver:
+  name: ec2
+  region: <%= ENV['AWS_REGION'] %>
+  subnet_id: <%= ENV['SUBNET_ID'] %>
+  security_group_ids: ["<%= ENV['SG_ID'] %>"]
+  aws_ssh_key_id: <%= ENV['SSH_KEY'] %>
+  iam_profile_name: <%= ENV['IAM_PROFILE'] %>
+  tags:
+    Owner: <%= ENV['TAGS_OWNER'] %>
+    Environment: <%= ENV['TAGS_ENVIRONMENT'] %>
+    Project: <%= ENV['TAGS_PROJECT'] %>
+    ExpirationDate: "<%= ENV['TAGS_EXPIRY'] %>"
+
+transport:
+  ssh_key: <%= ENV['SSH_KEY_PATH'] %>
+
+verifier:
+  name: inspec
+
+platforms:
+  # Ubuntu xenial
+  - name: ubuntu-16.04
+    driver:
+      instance_type: t2.small
+      tags:
+        Name: <%= ENV['TAGS_ENVIRONMENT'] %>-trendmicro-ubuntu-16.04
+
+
+   # RHEL 7.4
+  - name: RHEL-7.4
+    driver:
+      instance_type: c4.large
+      image_id: ami-c998b6b2
+      tags:
+        Name: <%= ENV['TAGS_ENVIRONMENT'] %>-STIG-RHEL-7-RHEL-7.4
+    transport:
+      username: ec2-user
+
+  # Windows 2016
+  - name: windows-2012r2
+    driver:
+      instance_type: c4.xlarge
+
+      spot_price: 0.20
+      tags:
+        Name: <%= ENV['TAGS_ENVIRONMENT'] %>-trendmicro-windows-2016
+  
+
+suites:
+  - name: default
+    run_list:
+      - recipe[trendmicro::default]
+    verifier:
+      inspec_tests:
+        - test/smoke/default
+    attributes:
