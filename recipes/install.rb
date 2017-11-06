@@ -37,8 +37,8 @@ when 'redhat'
 when 'windows'
     powershell_script 'Windows Installation' do
     code <<-EOH
-        #requires -version 4
-        # This script detects platform and architecture, download and install matching Deep Security Agent 10 package
+    #requires -version 4
+    # This script detects platform and architecture, download and install matching Deep Security Agent 10 package
         [Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
 	$env:LogPath = "$env:appdata\Trend Micro\Deep Security Agent\installer"
 	New-Item -path $env:LogPath -type directory
@@ -53,7 +53,7 @@ when 'windows'
 	& $Env:ProgramFiles"\Trend Micro\Deep Security Agent\dsa_control" -r
 	& $Env:ProgramFiles"\Trend Micro\Deep Security Agent\dsa_control" -a dsm://#{node['Trendmicro-agent-cookbook']['server-address']}:4120/ "policyid:1"
 	Stop-Transcript
-	echo "$(Get-Date -format T) - DSA Deployment Finished"
+	echo "$(Get-Date -format T) - DSA Deployment Finished"        
     EOH
     action :run 
 end                     
